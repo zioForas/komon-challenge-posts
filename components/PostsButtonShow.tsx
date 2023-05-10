@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaHeart, FaComment, } from "react-icons/fa";
-import * as faker from 'faker';
+// @ts-ignore
+import faker from 'faker';
 
 const POSTS_COUNT = 3;
 
