@@ -1,11 +1,19 @@
 import React, { useState } from "react";
-import { FaHeart, FaComment, } from "react-icons/fa";
-// @ts-ignore
+import { FaHeart, FaComment } from "react-icons/fa";
 import faker from 'faker';
 
 const POSTS_COUNT = 3;
 
-export const generatePost = () => {
+interface Post {
+  title: string;
+  author: string;
+  imageUrl: string;
+  likes: number;
+  comments: number;
+  date: string;
+}
+
+export const generatePost = (): Post => {
   const title = faker.lorem.words(3);
   const author = faker.name.firstName();
   const imageUrl = `https://picsum.photos/1200?random=${faker.random.number()}`;
@@ -22,8 +30,8 @@ export const generatePost = () => {
   };
 };
 
-export const generatePosts = () => {
-  const posts = [];
+export const generatePosts = (): Post[] => {
+  const posts: Post[] = [];
   for (let i = 0; i < POSTS_COUNT; i++) {
     posts.push(generatePost());
   }
@@ -31,7 +39,7 @@ export const generatePosts = () => {
 };
 
 const PostsButtonShow = () => {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const handleGeneratePosts = () => {
     setPosts(generatePosts());
@@ -43,7 +51,8 @@ const PostsButtonShow = () => {
       <div className="w-full mt-5 mb-2">
           <div className="text-black flex justify-center w-full z-10">
         <button
-className="w-[100%] h-8 md:h-12 focus:ring-4 group flex items-center justify-center p-0.7 text-center font-medium focus:z-10 rounded-lg cursor-pointer bg-transparent text-white border border-solid border-white"          onClick={handleGeneratePosts}
+          className="w-[100%] h-8 md:h-12 focus:ring-4 group flex items-center justify-center p-0.7 text-center font-medium focus:z-10 rounded-lg cursor-pointer bg-transparent text-white border border-solid border-white"
+          onClick={handleGeneratePosts}
         >
           Load posts
         </button>
@@ -52,7 +61,7 @@ className="w-[100%] h-8 md:h-12 focus:ring-4 group flex items-center justify-cen
       </div>
       {posts.length > 0 && (
         <div className="grid grid-cols-3 gap-4 mt-2">
-          {posts.map((post, index) => (
+          {posts.map((post: Post, index: number) => (
             <div key={index} className="flex flex-col items-center">
               <img src={post.imageUrl} alt={post.title} className="w-full" />
               <div className="flex items-center justify-between w-full mt-2">
@@ -64,10 +73,8 @@ className="w-[100%] h-8 md:h-12 focus:ring-4 group flex items-center justify-cen
                   <FaComment className="mr-1" />
                   <span className="text-sm">{post.comments}</span>
                 </div>
-                <div className="flex items-center">
-                </div>
               </div>
-         
+              <div className="text-xs mt-1">{post.date}</div>
             </div>
           ))}
         </div>
